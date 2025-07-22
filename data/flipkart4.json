@@ -1,0 +1,34 @@
+[
+  {
+    "intro": "Flipkart acquired Myntra in 2014 to strengthen its hold on the fashion e-commerce market.",
+    "details": "Myntra was already a strong brand in urban India, known for branded apparel and curated fashion content.",
+    "synergy": "The acquisition allowed Flipkart to integrate fashion with its core commerce platform.",
+    "strategy": "Flipkart let Myntra operate independently, preserving its brand identity while supporting backend logistics.",
+    "impact": "The move helped Flipkart become the market leader in online fashion.",
+    "future": "Flipkart plans to expand fashion to Tier-2 and Tier-3 cities using Myntra\u2019s influence."
+  },
+  { 
+    "intro": "Flipkart launched Flipkart Quick in 2020, a 90-minute hyperlocal delivery service.",
+    "details": "Flipkart Quick initially focused on delivering groceries and essentials in select Indian cities.",
+    "synergy": "The service leveraged Flipkart’s existing supply chain and last-mile delivery network.",
+    "strategy": "Flipkart Quick used a location mapping algorithm to ensure fast and efficient deliveries.",
+    "impact": "The launch helped Flipkart compete with other quick-commerce players like Dunzo and BigBasket.",
+    "future": "Flipkart aims to expand Flipkart Quick to more cities and add new product categories."
+  }, 
+  { 
+    "intro": "In 2021, Flipkart acquired Cleartrip to enter the travel and hotel booking segment.",
+    "details": "Cleartrip was a well-known online travel agency in India, offering flight, train, and hotel bookings.",
+    "synergy": "The acquisition allowed Flipkart to offer travel services to its large customer base.",
+    "strategy": "Flipkart integrated Cleartrip’s API to launch Flipkart Hotels on its platform.",
+    "impact": "This move diversified Flipkart’s offerings beyond e-commerce.",
+    "future": "Flipkart plans to further integrate travel and hospitality services into its ecosystem."
+  },
+  {
+    "intro": "Flipkart launched Flippi, an AI-powered shopping assistant, in 2024.",
+    "details": "Flippi uses generative AI to help users find products, compare prices, and get personalized recommendations.",
+    "synergy": "The assistant is integrated into the Flipkart app, enhancing the user experience.",
+    "strategy": "Flippi leverages user data and browsing history to provide relevant suggestions.",
+    "impact": "The launch of Flippi positioned Flipkart as a tech-driven innovator in Indian e-commerce.",
+    "future": "Flipkart plans to expand Flippi’s capabilities with voice and regional language support."
+  }
+]
