@@ -18,9 +18,14 @@ def chain_of_thought_prompt():
         - Carefully analyze the entire context provided above.
         - Identify all relevant facts across the retrieved sections.
         - Think step-by-step using a clear chain-of-thought style to build your answer.
+
+        - Clearly explain:
+            * Which chunks (sources) you used
+            * What specific information from them supports your answer
+            * How you connected those facts to answer the question
+            * Why other chunks were ignored (if applicable)
         - You must combine facts from multiple parts of the context if needed.
         - The answer may require synthesizing data spread across different sources or chunks.
-        - Think step-by-step (chain of thought) to deduce the answer from the given context.
         - Include a "reasoning" field in the JSON where you show step-by-step thoughts.
         - Avoid copying directly unless fully supported by context.
             - Include a "reasoning" field that explains:
