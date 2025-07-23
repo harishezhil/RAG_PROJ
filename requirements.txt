@@ -17,3 +17,5 @@ rapidfuzz
 pandas
 xlrd
 langchain-groq
+langchain
+langchain-openai
