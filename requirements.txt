@@ -8,3 +8,12 @@ sentence-transformers
 scikit-learn
 numpy
 python-dotenv
+pydantic
+tiktoken
+openai
+requests
+spacy
+rapidfuzz
+pandas
+xlrd
+langchain-groq
