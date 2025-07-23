@@ -181,7 +181,7 @@ st.title("Flipkart RAG App")
 query = st.text_area("Ask a question about Flipkart's business:", height=100)
 
 if st.button("Search") and query:
-    retrieved = retrieve_answers(query, index, metadata, 3)
+    retrieved = retrieve_answers(query, index, metadata, 8)
     all_content = "\n".join([doc["chunk"] for doc in retrieved])
     format_instruct = parser.get_format_instructions()
     format_prompt = prompt.format(content=all_content, query=query, format_instructions=format_instruct)
@@ -196,8 +196,8 @@ if st.button("Search") and query:
 
 
     st.markdown("**Chain of Thought Reasoning:**")
-    st.markdown(response.content)
-    st.markdown(f"**Final Answer:** {answer}")
+    st.markdown(result.content)
+    st.markdown(f"**Final Answer:** {result.content}")
 
 if st.button("Evaluate"):
     acc, avg_f1, util_score, faith_score = compute_metrics(test_set, index, metadata, llm, parser, prompt)

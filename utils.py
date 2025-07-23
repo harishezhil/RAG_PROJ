@@ -48,10 +48,24 @@ def load_documents(folder="data"):
             with open(path, encoding='utf-8') as f:
                 content = f.read()
 
+        # elif file.endswith(".json"):
+        #     with open(path, encoding='utf-8') as f:
+        #         data = json.load(f)
+        #         content = " ".join(str(v) for v in data.values())
+
         elif file.endswith(".json"):
             with open(path, encoding='utf-8') as f:
                 data = json.load(f)
-                content = " ".join(str(v) for v in data.values())
+
+                def flatten_json(obj):
+                    if isinstance(obj, dict):
+                        return " ".join(flatten_json(v) for v in obj.values())
+                    elif isinstance(obj, list):
+                        return " ".join(flatten_json(i) for i in obj)
+                    else:
+                        return str(obj)
+
+                content = flatten_json(data)
 
         elif file.endswith(".xml"):
             tree = ET.parse(path)
