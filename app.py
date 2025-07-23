@@ -13,10 +13,13 @@ from langchain.output_parsers import PydanticOutputParser
 from rapidfuzz import fuzz, process
 import spacy
 import streamlit as st
+import os
 
-load_dotenv()
+if os.path.exists(".env"):
+    from dotenv import load_dotenv
+    load_dotenv()
+
 # nlp = spacy.load("en_core_web_sm")
-
 # def extract_keywords(text):
 #     doc = nlp(text)
 #     return [token.lemma_.lower() for token in doc if token.pos_ in {"NOUN", "PROPN", "NUM"} and not token.is_stop]
@@ -64,7 +67,7 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
     context_utilization_scores = []
     faithfulness_scores = []
     for test in test_set:
-        retrieved = retrieve_answers(test["query"], index, metadata,3)
+        retrieved = retrieve_answers(test["query"], index, metadata,8)
         all_content=""
         relevant_retrieved_count = 0
         retrieved_count = len(retrieved)
@@ -133,7 +136,7 @@ except Exception as e:
 
 # Input
 
-llm = ChatGroq(model="gemma2-9b-it",temperature=0)
+llm = ChatGroq(model="gemma2-9b-it",temperature=0,api_key=os.getenv("GROQ_API_KEY"))
 prompt = chain_of_thought_prompt()
 parser=PydanticOutputParser(pydantic_object=Result)
 
@@ -185,6 +188,12 @@ if st.button("Search") and query:
     response = llm.invoke(format_prompt)
     result = parser.parse(response.content)
     answer = result.content
+    
+    st.markdown("### Retrieved Chunks:")
+    for doc in retrieved:
+        st.markdown(f"**Source:** `{doc['source']}`")
+        st.markdown(f"```text\n{doc['chunk']}\n```")
+
 
     st.markdown("**Chain of Thought Reasoning:**")
     st.markdown(response.content)

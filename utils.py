@@ -7,10 +7,33 @@ from models.embedding_model import embed_text
 import faiss
 
 
-def section_chunking(text, chunk_size=500, overlap=100):
+# def section_chunking(text, chunk_size=500, overlap=100):
+#     chunks = []
+#     for i in range(0, len(text), chunk_size - overlap):
+#         chunks.append(text[i:i + chunk_size])
+#     return chunks
+
+
+import re
+
+def section_chunking(text):
+    # This assumes your text uses markdown-like section headers: ** or numbered bullets
+    pattern = r'(?=\n\s*(\*\*|\d+\.))'  # Lookahead for new sections
+    sections = re.split(pattern, text)
+    
     chunks = []
-    for i in range(0, len(text), chunk_size - overlap):
-        chunks.append(text[i:i + chunk_size])
+    buffer = ""
+    
+    for sec in sections:
+        if sec.strip():
+            if len(buffer) + len(sec) < 1000:
+                buffer += sec
+            else:
+                chunks.append(buffer.strip())
+                buffer = sec
+    if buffer:
+        chunks.append(buffer.strip())
+
     return chunks
 
 

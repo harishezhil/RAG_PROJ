@@ -7,4 +7,4 @@ def embed_text(texts):
  
     #Embed a list of texts and return their vector representations.
     
-    return model.encode(texts, convert_to_tensor=False)
+    return model.encode(texts, convert_to_numpy=True)
