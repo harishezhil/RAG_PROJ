@@ -7,3 +7,4 @@ transformers
 sentence-transformers
 scikit-learn
 numpy
+python-dotenv
