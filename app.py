@@ -16,7 +16,6 @@ import streamlit as st
 import os
 
 if os.path.exists(".env"):
-    from dotenv import load_dotenv
     load_dotenv()
 
 # nlp = spacy.load("en_core_web_sm")
@@ -176,33 +175,75 @@ test_set = [
 acc, avg_f1, avg_util, avg_faith = compute_metrics(test_set, index, metadata, llm,parser, prompt)
 print(acc,"-",avg_f1,"-",avg_util,"-",avg_faith)
 
+st.set_page_config(page_title="📊 Flipkart RAG Assistant", page_icon="🛍️", layout="wide")
 
-st.title("Flipkart RAG App")
-query = st.text_area("Ask a question about Flipkart's business:", height=100)
+st.title("🛍️ Flipkart RAG Assistant")
+st.markdown("Ask a business-related question about Flipkart and get a smart, context-based answer using Retrieval-Augmented Generation (RAG).")
 
-if st.button("Search") and query:
-    retrieved = retrieve_answers(query, index, metadata, 8)
-    all_content = "\n".join([doc["chunk"] for doc in retrieved])
-    format_instruct = parser.get_format_instructions()
-    format_prompt = prompt.format(content=all_content, query=query, format_instructions=format_instruct)
-    response = llm.invoke(format_prompt)
-    result = parser.parse(response.content)
-    answer = result.content
-    
-    st.markdown("### Retrieved Chunks:")
-    for doc in retrieved:
-        st.markdown(f"**Source:** `{doc['source']}`")
-        st.markdown(f"```text\n{doc['chunk']}\n```")
+query = st.text_area("🔍 Ask your question:", height=100, placeholder="e.g. Did Flipkart launch an AI assistant in 2024?")
 
+if st.button("🚀 Get Answer") and query:
+    with st.spinner("Thinking like an analyst... 🧠"):
+        retrieved = retrieve_answers(query, index, metadata, 8)
+        all_content = "\n".join([doc["chunk"] for doc in retrieved])
+        format_instruct = parser.get_format_instructions()
+        format_prompt = prompt.format(content=all_content, query=query, format_instructions=format_instruct)
+        response = llm.invoke(format_prompt)
+        result = parser.parse(response.content)
 
-    st.markdown("**Chain of Thought Reasoning:**")
-    st.markdown(result.content)
-    st.markdown(f"**Final Answer:** {result.content}")
+        st.markdown("---")
+        st.markdown("### ✅ Final Answer")
+        st.success(f"**{result.content}**")
 
-if st.button("Evaluate"):
+        st.markdown("### 🤔 How the model thought (Chain of Thought)")
+        st.info(result.reasoning)
+
+        with st.expander("🧩 Retrieved Chunks (Click to Expand)"):
+            for doc in retrieved:
+                st.markdown(f"**📄 Source:** `{doc['source']}`")
+                st.markdown(f"```text\n{doc['chunk']}\n```")
+
+if st.button("📊 Run Evaluation"):
     acc, avg_f1, util_score, faith_score = compute_metrics(test_set, index, metadata, llm, parser, prompt)
-    st.markdown(f"**Test Set Accuracy:** {acc:.2f}")
-    st.markdown(f"**Avg F1 Score:** {avg_f1:.2f}")
-    st.markdown(f"**Avg Context Utilization Score:** {util_score:.2f}")
-    st.markdown(f"**Avg Faithfulness Score:** {faith_score:.2f}")
+    st.markdown("### 🧪 Evaluation Metrics")
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Accuracy", f"{acc:.2f}")
+    col2.metric("F1 Score", f"{avg_f1:.2f}")
+    col3.metric("Context Util.", f"{util_score:.2f}")
+    col4.metric("Faithfulness", f"{faith_score:.2f}")
+
+# st.title("Flipkart RAG App")
+# query = st.text_area("Ask a question about Flipkart's business:", height=100)
+
+# if st.button("Search") and query:
+#     retrieved = retrieve_answers(query, index, metadata, 8)
+#     all_content = "\n".join([doc["chunk"] for doc in retrieved])
+#     format_instruct = parser.get_format_instructions()
+#     format_prompt = prompt.format(content=all_content, query=query, format_instructions=format_instruct)
+#     response = llm.invoke(format_prompt)
+#     result = parser.parse(response.content)
+#     answer = result.content
+    
+#     st.markdown("Final Answer:")
+#     st.markdown(result.Answer)
+
+#     st.markdown("### Retrieved Chunks:")
+#     for doc in retrieved:
+#         st.markdown(f"**Source:** `{doc['source']}`")
+#         st.markdown(f"```text\n{doc['chunk']}\n```")
+
+
+#     # st.markdown("**Chain of Thought Reasoning:**")
+#     # st.markdown(result.content)
+#     # st.markdown(f"**Final Answer:** {result.content}")
+
+#     st.markdown("Chain of Thought:")
+#     st.markdown(result.Chain_of_Thought)
+
+# if st.button("Evaluate"):
+#     acc, avg_f1, util_score, faith_score = compute_metrics(test_set, index, metadata, llm, parser, prompt)
+#     st.markdown(f"**Test Set Accuracy:** {acc:.2f}")
+#     st.markdown(f"**Avg F1 Score:** {avg_f1:.2f}")
+#     st.markdown(f"**Avg Context Utilization Score:** {util_score:.2f}")
+#     st.markdown(f"**Avg Faithfulness Score:** {faith_score:.2f}")
 
