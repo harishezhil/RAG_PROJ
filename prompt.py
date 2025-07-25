@@ -9,21 +9,33 @@ def chain_of_thought_prompt():
 
             Your job is to:
             1. Think step-by-step about the question and the context.
-            2. Clearly state the final answer FIRST.
+            2. Clearly state the final answer FIRST in the "content" field.
             3. Then explain in detail how you arrived at that answer in the "reasoning" field.
 
             Instructions:
-            - If the answer is "No", say "No" and explain why it's incorrect or unsupported using the chunks.
-            - If the answer is "Yes", provide a complete, accurate answer with supporting evidence.
-            - If the answer is not directly stated but can be inferred, use logic and context to answer.
-            - NEVER respond with "No Information found".
-            - ALWAYS give a confident answer based on the best available evidence from the context.
+            - Base your answer entirely on the provided context. Do not use outside knowledge.
+            - Combine facts across multiple chunks if necessary.
+            - If the question includes a false assumption (e.g. wrong year, incorrect claim, missing fact):
+                - Explicitly contradict the assumption (e.g., "No, that did not happen")
+                - Then explain the correct fact using the context.
+            - If the answer is yes, provide evidence from the context and clarify.
+            - If the answer is no, explain why it's incorrect or unsupported using the retrieved chunks.
+            - AVOID responding with "No Information found".
+            - ALWAYS make a decision and support it using the available evidence.
 
-            Your final output must follow this JSON format and be wrapped in a code block:
+            Example format:
             ```json
             {{
-              "content": "<final answer (Yes/No + explanation)>",
-              "reasoning": "<step-by-step reasoning showing how the answer was derived, what chunks were used, and why>"
+              "content": "No, Flipkart did not launch a Web3 platform in 2023. Instead, it launched Flipverse in 2022.",
+              "reasoning": "Chunk 3 from flipkart5.txt states that Flipkart entered the Metaverse in 2022. No evidence supports a 2023 launch."
+            }}
+            ```
+
+            Your output must follow this JSON structure and be wrapped in a code block:
+            ```json
+            {{
+              "content": "<final answer>",
+              "reasoning": "<step-by-step justification, including which chunks you used and why>"
             }}
             ```
 
@@ -35,80 +47,7 @@ def chain_of_thought_prompt():
 
             Output Format Specification:
             {format_instructions}
-
-            Make sure your response:
-            1. Starts with the final answer in the 'content' field.
-            2. Shows clear reasoning in the 'reasoning' field.
-            3. Uses only the context above — do not use outside knowledge.
             """
         )
     )
     return prompt
-
-
-
-# from langchain.prompts import PromptTemplate
-
-# def chain_of_thought_prompt():
-#     prompt = PromptTemplate(
-#         input_variables=["query", "content", "format_instructions"],
-#         template=(
-#     """
-#         You are a business analyst assistant. Answer the given question using only the context provided.
-
-#         Question: {query}
-
-#         Context: {content}
-
-#         Output Format Specification:
-#         {format_instructions}
-
-#         Instructions:
-#         - Carefully analyze the entire context provided above.
-#         - Identify all relevant facts across the retrieved sections.
-#         - Think step-by-step using a clear chain-of-thought style to build your answer.
-
-#         - Clearly explain:
-#             * Which chunks (sources) you used
-#             * What specific information from them supports your answer
-#             * How you connected those facts to answer the question
-#             * Why other chunks were ignored (if applicable)
-#         - You must combine facts from multiple parts of the context if needed.
-#         - The answer may require synthesizing data spread across different sources or chunks.
-#         - Include a "reasoning" field in the JSON where you show step-by-step thoughts.
-#         - Avoid copying directly unless fully supported by context.
-#             - Include a "reasoning" field that explains:
-#               * What you identified from which chunks
-#               * How you logically connected it to the question
-#               * Why this answer is correct
-#             - Your final answer should go into the "content" field.
-#         - Final output must look like this:
-#         ```json
-#         {{
-#             "content": "<final answer>",
-#             "reasoning": "<step-by-step explanation of how you derived the answer>"
-#         }}
-#         ```
-#         - If no suitable answer is found, return content as "No Information found".
-#         - **Return only the JSON Output**. Do not include any explanation, justification, or extra commentary.
-#         - The final JSON output must be valid **JSON** and enclosed in a `json` code block.
-
-#         Reasoning Steps:
-#             1. Did you locate relevant content?
-#             2. Did you connect multiple chunks if needed?
-#             3. Did you explain how the context supports your answer?
-#             4. Did you return a clear answer inside 'content'?
-#     """
-# )
-
-#     )
-#     return prompt
-
-#                 # 1. Identify relevant information from the context.
-#                 # 2. Analyze how the information answers the question.
-#                 # 3. Formulate the answer in the specified JSON format.
-
-#         # 1. Identify all relevant facts across the provided sections.
-#         # 2. Merge related data if it spans multiple chunks (e.g., date + event).
-#         # 3. Explain the logic inside the "reasoning" field.
-#         # # 4. Return final conclusion in "content".
