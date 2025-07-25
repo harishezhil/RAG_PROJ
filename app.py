@@ -175,12 +175,12 @@ test_set = [
 acc, avg_f1, avg_util, avg_faith = compute_metrics(test_set, index, metadata, llm,parser, prompt)
 print(acc,"-",avg_f1,"-",avg_util,"-",avg_faith)
 
-st.set_page_config(page_title="📊 Flipkart RAG Assistant", page_icon="🛍️", layout="wide")
+st.set_page_config(page_title="Flipkart RAG Assistant", page_icon="🛍️", layout="wide")
 
 st.title("🛍️ Flipkart RAG Assistant")
 st.markdown("Ask a business-related question about Flipkart and get a smart, context-based answer using Retrieval-Augmented Generation (RAG).")
 
-query = st.text_area("🔍 Ask your question:", height=100, placeholder="e.g. Did Flipkart launch an AI assistant in 2024?")
+query = st.text_area("🔍 Ask your question:", height=100)
 
 if st.button("🚀 Get Answer") and query:
     with st.spinner("Thinking like an analyst... 🧠"):
