@@ -12,32 +12,28 @@ def chain_of_thought_prompt():
             2. Clearly state the final answer FIRST in the "content" field.
             3. Then explain in detail how you arrived at that answer in the "reasoning" field.
 
-            Instructions:
-            - Base your answer entirely on the provided context. Do not use outside knowledge.
-            - Combine facts across multiple chunks if necessary.
-            - If the question includes a false assumption (e.g. wrong year, incorrect claim, missing fact):
-                - Explicitly contradict the assumption (e.g., "No, that did not happen")
-                - Then explain the correct fact using the context.
-            - If the answer is yes, provide evidence from the context and clarify.
-            - If the answer is no, explain why it's incorrect or unsupported using the retrieved chunks.
-            - AVOID responding with "No Information found".
-            - ALWAYS make a decision and support it using the available evidence.
+            - If the user's question contains a false assumption (wrong name, year, event, etc):
+                - Start the answer by saying "No," and correct the assumption clearly.
+                - Then explain the correct answer using facts from the context.
+            - If the answer is yes, support it using retrieved context.
+            - If no, explain why it's incorrect based on the context.
+            - Never say "No Information found".
+            - Only use the given context — no outside knowledge.
 
-            Example format:
+            🔁 Example 1 (Contradiction):
+            Question: When did Jeff create Flipkart?
+            Context:
+            Flipkart, an Indian e-commerce company, was founded in October 2007 in Bangalore by Sachin Bansal and Binny Bansal.
+
+            Response:
             ```json
             {{
-              "content": "No, Flipkart did not launch a Web3 platform in 2023. Instead, it launched Flipverse in 2022.",
-              "reasoning": "Chunk 3 from flipkart5.txt states that Flipkart entered the Metaverse in 2022. No evidence supports a 2023 launch."
+              "content": "No, Jeff did not create Flipkart. It was founded in October 2007 in Bangalore by Sachin Bansal and Binny Bansal.",
+              "reasoning": "The context states Flipkart was founded in October 2007 by Sachin Bansal and Binny Bansal. There is no mention of Jeff, so the assumption is incorrect."
             }}
             ```
 
-            Your output must follow this JSON structure and be wrapped in a code block:
-            ```json
-            {{
-              "content": "<final answer>",
-              "reasoning": "<step-by-step justification, including which chunks you used and why>"
-            }}
-            ```
+            Now, answer the following question.
 
             Question:
             {query}
