@@ -1,49 +1,33 @@
 from models.embedding_model import embed_text
 import numpy as np
-import faiss
 import re
 
 def extract_years(text):
     return re.findall(r"\b(20\d{2})\b", text)
 
 def retrieve_answers(query, index, metadata, k=5):
-    from langchain.schema import Document
-
     query_years = extract_years(query)
-    query_lower = query.lower()
 
-    # Over-fetch to allow better filtering
-    results = index.similarity_search(query, k=20)
+    # Embed the query using the same model
+    q_emb = embed_text([query])[0].astype("float32")
 
-    # Optional: Force insert critical fact-based chunks (e.g., founders)
-    founding_keywords = ["found", "founder", "create", "establish", "start"]
-    should_force_founding_chunk = any(keyword in query_lower for keyword in founding_keywords)
+    # Run FAISS search
+    D, I = index.search(np.array([q_emb]), 15)  # retrieve top-15 candidates
 
-    forced_chunk = None
-    if should_force_founding_chunk:
-        for meta in metadata:
-            if "Flipkart was founded" in meta.page_content:
-                forced_chunk = meta
-                break
+    # Match to metadata
+    results = [metadata[i] for i in I[0]]
 
-    # Filter by year match if applicable
     if query_years:
         filtered = []
         for doc in results:
-            doc_years = extract_years(doc.page_content)
+            doc_years = extract_years(doc["chunk"])
             if any(year in doc_years for year in query_years):
                 filtered.append(doc)
-
-        final = filtered[:k]
+        return filtered[:k] if filtered else results[:k]
     else:
-        final = results[:k]
+        return results[:k]
 
-    # Inject forced chunk if it's not already included
-    if forced_chunk and all(forced_chunk.page_content != d.page_content for d in final):
-        final = [forced_chunk] + final[:k-1]  # Ensure only k total
-
-    return final
-
+# new code
 
 
 # from models.embedding_model import embed_text
