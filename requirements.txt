@@ -19,6 +19,9 @@ xlrd
 langchain-groq
 langchain
 langchain-openai
+pymupdf
+
+openpyxl
 
 
 # spacy

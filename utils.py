@@ -23,6 +23,7 @@ def section_chunking(text):
 def load_documents(folder="data"):
     import os, json, pandas as pd
     import xml.etree.ElementTree as ET
+    import fitz
 
     docs = []
     for file in os.listdir(folder):
@@ -55,6 +56,12 @@ def load_documents(folder="data"):
         elif file.endswith(".xlsx"):
             df = pd.read_excel(path)
             content = " ".join(df.astype(str).values.flatten())
+            
+        elif file.endswith(".pdf"):
+            doc = fitz.open(path)
+            content = ""
+            for page in doc:
+                content += page.get_text()
 
         if content:
             docs.append((file, content))
@@ -74,6 +81,11 @@ def build_faiss_index(documents, index_path="faiss_index/index.faiss", meta_path
         parts = section_chunking(doc_text)
         chunks.extend(parts)
         metadata.extend([{"chunk": part, "source": filename} for part in parts])
+
+    #Save chunks to a text file for inspection    
+    with open("chunks_output.txt", "w", encoding="utf-8") as f:
+        for i, chunk in enumerate(chunks):
+            f.write(f"[Chunk {i+1} from {metadata[i]['source']}]\n{chunk.strip()}\n\n{'-'*80}\n\n")
 
     embeddings = embed_text(chunks)
     dim = embeddings[0].shape[0]

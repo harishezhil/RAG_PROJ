@@ -139,27 +139,27 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
         print("Predicted:", answer)
         
         print("-" * 40)
-        if answer!= "No Information found":
-            correct += 1
+        # if answer!= "No Information found":
+        #     correct += 1
             
         # # Use keyword fuzzy score
         # faithfulness = compute_keyword_fuzzy_score(answer, test["expected"])
-        # if faithfulness > 0.7:
-        #     correct += 1
+        if faithfulness > 0.85:
+            correct += 1
         
         
         
         # new
-        # precision = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
-        # total_relevant = sum(1 for t in test_set if t["source"] == test["source"])
-        # recall = relevant_retrieved_count / total_relevant if total_relevant > 0 else 0
-        # if precision + recall == 0:
-        #     f1_score = 0
-        # else:
-        #     f1_score = 2 * precision * recall / (precision + recall)
+        precision = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
+        total_relevant = sum(1 for t in test_set if t["source"] == test["source"])
+        recall = relevant_retrieved_count / total_relevant if total_relevant > 0 else 0
+        if precision + recall == 0:
+            f1_score = 0
+        else:
+            f1_score = 2 * precision * recall / (precision + recall)
         # new
         
-        f1_score = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
+        # f1_score = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
         f1_scores.append(f1_score)
         
         # --- Context Utilization Score ---
@@ -266,6 +266,15 @@ if st.button("📊 Run Evaluation"):
     col2.metric("F1 Score", f"{avg_f1:.2f}")
     col3.metric("Context Util.", f"{util_score:.2f}")
     col4.metric("Faithfulness", f"{faith_score:.2f}")
+    
+    
+if os.path.exists("chunks_output.txt"):
+    with open("chunks_output.txt", "r", encoding="utf-8") as f:
+        st.text_area("📄 View Generated Chunks", f.read(), height=400)
+
+    with open("chunks_output.txt", "rb") as f:
+        st.download_button("⬇️ Download Chunk File", f, file_name="chunks_output.txt")
+
 
 # st.title("Flipkart RAG App")
 # query = st.text_area("Ask a question about Flipkart's business:", height=100)
