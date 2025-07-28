@@ -142,13 +142,15 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
         # if answer!= "No Information found":
         #     correct += 1
             
-        # # Use keyword fuzzy score
+        # # Use keyword fuzzy score        
         # faithfulness = compute_keyword_fuzzy_score(answer, test["expected"])
-        if faithfulness > 0.85:
-            correct += 1
+        # if not isinstance(faithfulness, (int, float)):
+        #     faithfulness = 0.0  # or any fallback threshold 
+
+        # if faithfulness > 0.85:
+        #     correct += 1
         
-        
-        
+    
         # new
         precision = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
         total_relevant = sum(1 for t in test_set if t["source"] == test["source"])
@@ -169,6 +171,8 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
         # --- Faithfulness Score ---
         faithfulness = fuzz.token_sort_ratio(answer.lower(), test["expected"].lower()) / 100
         faithfulness_scores.append(faithfulness)
+        if faithfulness > 0.85:
+            correct += 1
         
     accuracy = correct / len(test_set) if test_set else 0
     avg_f1 = sum(f1_scores) / len(f1_scores) if f1_scores else 0
