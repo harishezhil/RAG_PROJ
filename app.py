@@ -62,6 +62,7 @@ if os.path.exists(".env"):
 
 
 # trying somtheing new
+nlp = spacy.load("en_core_web_sm")
 def extract_keywords(text):
     doc = nlp(text)
     return [token.lemma_.lower() for token in doc if token.pos_ in {"NOUN", "PROPN", "NUM"} and not token.is_stop]
