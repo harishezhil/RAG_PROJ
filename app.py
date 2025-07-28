@@ -150,13 +150,13 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
         
         
         # new
-        precision = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
-        total_relevant = sum(1 for t in test_set if t["source"] == test["source"])
-        recall = relevant_retrieved_count / total_relevant if total_relevant > 0 else 0
-        if precision + recall == 0:
-            f1_score = 0
-        else:
-            f1_score = 2 * precision * recall / (precision + recall)
+        # precision = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
+        # total_relevant = sum(1 for t in test_set if t["source"] == test["source"])
+        # recall = relevant_retrieved_count / total_relevant if total_relevant > 0 else 0
+        # if precision + recall == 0:
+        #     f1_score = 0
+        # else:
+        #     f1_score = 2 * precision * recall / (precision + recall)
         # new
         
         f1_score = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
