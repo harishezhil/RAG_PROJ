@@ -18,6 +18,15 @@ import os
 
 if os.path.exists(".env"):
     load_dotenv()
+#  Auto-download fallback  
+#________________________________________________________________________________________________________________________  
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    import subprocess
+    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+    nlp = spacy.load("en_core_web_sm")
+# _________________________________________________________________________________________________________________________
 
 # nlp = spacy.load("en_core_web_sm")
 # def extract_keywords(text):
