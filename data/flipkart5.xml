@@ -1,1 +1,170 @@
 <flipkart><competitor>Amazon entered India in 2013 and quickly became a top competitor.</competitor><position>Flipkart and Amazon continue to compete neck-and-neck, especially during festival sales.</position><otherPlayers>Meesho, JioMart, and Snapdeal also compete in niche categories like social commerce and groceries.</otherPlayers><differentiation>Flipkart focuses on affordability, trust, and regional customization to differentiate itself.</differentiation><events>Events like Big Billion Days and Prime Day are used to drive user engagement and revenue spikes.</events><strategy>Flipkart leverages data analytics, loyalty programs, and partnerships to build customer retention.</strategy><payment>Flipkart supports UPI, EMIs, and no-cost financing for large purchases.</payment><reach>Flipkart&#8217;s reach into semi-urban and rural areas is a major growth engine.</reach></flipkart>
+
+<FlipkartFundingJourney>
+  <Overview>
+    <YearFounded>2007</YearFounded>
+    <Summary>
+      Flipkart, a trailblazer in India's digital commerce landscape, began in a two-bedroom apartment in Koramangala, Bengaluru.
+      Its funding journey has attracted major domestic and global investors, helping it grow into one of India’s largest e-commerce platforms.
+    </Summary>
+    <InitialFunding>
+      <Investor>Accel Partners</Investor>
+      <Amount currency="USD">1 million</Amount>
+      <Year>2009</Year>
+    </InitialFunding>
+    <InitialFunding>
+      <Investor>Tiger Global Management</Investor>
+      <Year>2009</Year>
+    </InitialFunding>
+  </Overview>
+
+  <FundingPhase period="2010-2015">
+    <FundingRound>
+      <Year>2010</Year>
+      <Investor>Tiger Global</Investor>
+      <Amount currency="USD">10 million</Amount>
+    </FundingRound>
+    <FundingRound>
+      <Year>2011</Year>
+      <Investor>Tiger Global</Investor>
+      <Amount currency="USD">20 million</Amount>
+    </FundingRound>
+    <FundingRound>
+      <Year>2012</Year>
+      <Amount currency="USD">150 million</Amount>
+      <Investors>
+        <Investor>MIH (Naspers Group)</Investor>
+        <Investor>ICONIQ Capital</Investor>
+      </Investors>
+    </FundingRound>
+    <FundingRound>
+      <Year>2013</Year>
+      <Month>July</Month>
+      <Amount currency="USD">200 million</Amount>
+      <Investors>
+        <Investor>Tiger Global</Investor>
+        <Investor>Naspers</Investor>
+        <Investor>Accel Partners</Investor>
+        <Investor>ICONIQ Capital</Investor>
+      </Investors>
+    </FundingRound>
+    <FundingRound>
+      <Year>2013</Year>
+      <Month>October</Month>
+      <Amount currency="USD">160 million</Amount>
+      <Investors>
+        <Investor>Dragoneer Investment Group</Investor>
+        <Investor>Morgan Stanley Wealth Management</Investor>
+        <Investor>Sofina SA</Investor>
+        <Investor>Vulcan Inc.</Investor>
+        <Investor>Tiger Global</Investor>
+      </Investors>
+    </FundingRound>
+    <FundingRound>
+      <Year>2014</Year>
+      <Month>May</Month>
+      <Amount currency="USD">210 million</Amount>
+      <Investors>
+        <Investor>DST Global (Yuri Milner)</Investor>
+      </Investors>
+    </FundingRound>
+    <FundingRound>
+      <Year>2014</Year>
+      <Month>July</Month>
+      <Amount currency="USD">1 billion</Amount>
+      <Investors>
+        <Investor>Tiger Global</Investor>
+        <Investor>Accel Partners</Investor>
+        <Investor>Morgan Stanley Investment Management</Investor>
+        <Investor>GIC</Investor>
+      </Investors>
+    </FundingRound>
+    <FundingRound>
+      <Year>2015</Year>
+      <Month>August</Month>
+      <Amount currency="USD">700 million</Amount>
+      <Investors>
+        <Investor>Morgan Stanley</Investor>
+      </Investors>
+    </FundingRound>
+    <CumulativeRaised currency="USD">3 billion+</CumulativeRaised>
+    <PeakValuation currency="USD">15 billion</PeakValuation>
+  </FundingPhase>
+
+  <FundingPhase period="2016-2017">
+    <FundingRound>
+      <Year>2017</Year>
+      <Month>April</Month>
+      <Amount currency="USD">1.4 billion</Amount>
+      <Investors>
+        <Investor>Tencent</Investor>
+        <Investor>Microsoft</Investor>
+        <Investor>eBay</Investor>
+      </Investors>
+    </FundingRound>
+    <FundingRound>
+      <Year>2017</Year>
+      <Month>August</Month>
+      <Amount currency="USD">2.5 billion</Amount>
+      <Investors>
+        <Investor>SoftBank Vision Fund</Investor>
+      </Investors>
+    </FundingRound>
+  </FundingPhase>
+
+  <WalmartAcquisition>
+    <Date>May 2018</Date>
+    <Acquirer>Walmart</Acquirer>
+    <Stake>77%</Stake>
+    <DealValue currency="USD">16 billion</DealValue>
+    <CompanyValuation currency="USD">20.8 billion</CompanyValuation>
+  </WalmartAcquisition>
+
+  <PostAcquisitionFunding>
+    <FundingRound>
+      <Year>2021</Year>
+      <Month>July</Month>
+      <Amount currency="USD">3.6 billion</Amount>
+      <Valuation currency="USD">37.6 billion</Valuation>
+      <Investors>
+        <Investor>CPP Investments</Investor>
+        <Investor>GIC</Investor>
+        <Investor>SoftBank Vision Fund</Investor>
+        <Investor>Walmart</Investor>
+      </Investors>
+    </FundingRound>
+    <FundingRound>
+      <Year>2023</Year>
+      <Month>December</Month>
+      <Amount currency="USD">600 million</Amount>
+      <Valuation currency="USD">34.1 billion</Valuation>
+    </FundingRound>
+    <FundingRound>
+      <Year>2024</Year>
+      <Month>May</Month>
+      <Amount currency="USD">350 million</Amount>
+      <Investor>Google</Investor>
+      <Valuation currency="USD">36 billion</Valuation>
+    </FundingRound>
+  </PostAcquisitionFunding>
+
+  <IPOPlans>
+    <ExpectedIPODate>Late 2025 to Early 2026</ExpectedIPODate>
+    <TargetValuation currency="USD">60-70 billion</TargetValuation>
+    <Redomiciling>
+      <From>Singapore</From>
+      <To>India</To>
+      <ExpectedCompletion>12 to 15 months</ExpectedCompletion>
+    </Redomiciling>
+  </IPOPlans>
+
+  <StrategicFocus>
+    <Areas>
+      <Area>Supply Chain & Logistics</Area>
+      <Area>AI-driven Personalization</Area>
+      <Area>Grocery & Quick Commerce</Area>
+      <Area>Web3 (Flipverse)</Area>
+      <Area>Generative AI (Flippi)</Area>
+    </Areas>
+  </StrategicFocus>
+</FlipkartFundingJourney>
