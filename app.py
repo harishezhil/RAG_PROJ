@@ -18,15 +18,20 @@ import os
 
 if os.path.exists(".env"):
     load_dotenv()
-#  Auto-download fallback  
-#________________________________________________________________________________________________________________________  
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    import subprocess
-    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-    nlp = spacy.load("en_core_web_sm")
-# _________________________________________________________________________________________________________________________
+
+
+# #  Auto-download fallback  
+# #________________________________________________________________________________________________________________________  
+# try:
+#     nlp = spacy.load("en_core_web_sm")
+# except OSError:
+#     import subprocess
+#     subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+#     nlp = spacy.load("en_core_web_sm")
+# # _________________________________________________________________________________________________________________________
+
+
+
 
 # nlp = spacy.load("en_core_web_sm")
 # def extract_keywords(text):
@@ -70,34 +75,37 @@ except OSError:
 #     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
-# trying somtheing new
-nlp = spacy.load("en_core_web_sm")
-def extract_keywords(text):
-    doc = nlp(text)
-    return [token.lemma_.lower() for token in doc if token.pos_ in {"NOUN", "PROPN", "NUM"} and not token.is_stop]
 
-def compute_rapid_fuzz(text1: str, text2: str) -> float:
-    t1 = text1.strip().lower()
-    t2 = text2.strip().lower()
-    if t1 in t2 or t2 in t1:
-        return 1
-    return fuzz.token_sort_ratio(t1, t2)/100
+# # trying somtheing new
+# nlp = spacy.load("en_core_web_sm")
+# def extract_keywords(text):
+#     doc = nlp(text)
+#     return [token.lemma_.lower() for token in doc if token.pos_ in {"NOUN", "PROPN", "NUM"} and not token.is_stop]
 
-def compute_keyword_fuzzy_score(pred, gold):
-    fuzz_score = compute_rapid_fuzz(pred, gold)
-    pred_keywords = extract_keywords(pred)
-    gold_keywords = extract_keywords(gold)
-    if gold_keywords:
-        matches = 0
-        for gk in gold_keywords:
-            best = process.extractOne(gk, pred_keywords, scorer=fuzz.partial_ratio)
-            if best and best[1] > 80:
-                matches += 1
-        key_score = matches / len(gold_keywords)
-    else:
-        key_score = 0
-    return max(key_score, fuzz_score)
-#________________________________________________________________________________________________________________________
+# def compute_rapid_fuzz(text1: str, text2: str) -> float:
+#     t1 = text1.strip().lower()
+#     t2 = text2.strip().lower()
+#     if t1 in t2 or t2 in t1:
+#         return 1
+#     return fuzz.token_sort_ratio(t1, t2)/100
+
+# def compute_keyword_fuzzy_score(pred, gold):
+#     fuzz_score = compute_rapid_fuzz(pred, gold)
+#     pred_keywords = extract_keywords(pred)
+#     gold_keywords = extract_keywords(gold)
+#     if gold_keywords:
+#         matches = 0
+#         for gk in gold_keywords:
+#             best = process.extractOne(gk, pred_keywords, scorer=fuzz.partial_ratio)
+#             if best and best[1] > 80:
+#                 matches += 1
+#         key_score = matches / len(gold_keywords)
+#     else:
+#         key_score = 0
+#     return max(key_score, fuzz_score)
+# #________________________________________________________________________________________________________________________
+
+
 
 def compute_metrics(test_set, index, metadata, llm, parser,prompt):
     format_instruct=parser.get_format_instructions()
@@ -134,10 +142,12 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
         if answer!= "No Information found":
             correct += 1
             
-        # Use keyword fuzzy score
-        faithfulness = compute_keyword_fuzzy_score(answer, test["expected"])
-        if faithfulness > 0.7:
-            correct += 1
+        # # Use keyword fuzzy score
+        # faithfulness = compute_keyword_fuzzy_score(answer, test["expected"])
+        # if faithfulness > 0.7:
+        #     correct += 1
+        
+        
         
         # new
         precision = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
@@ -149,8 +159,7 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
             f1_score = 2 * precision * recall / (precision + recall)
         # new
         
-        #f1_score = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
-        
+        f1_score = relevant_retrieved_count / retrieved_count if retrieved_count > 0 else 0
         f1_scores.append(f1_score)
         
         # --- Context Utilization Score ---
@@ -158,7 +167,7 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
         context_utilization_scores.append(context_utilization)
         
         # --- Faithfulness Score ---
-        #faithfulness = fuzz.token_sort_ratio(answer.lower(), test["expected"].lower()) / 100
+        faithfulness = fuzz.token_sort_ratio(answer.lower(), test["expected"].lower()) / 100
         faithfulness_scores.append(faithfulness)
         
     accuracy = correct / len(test_set) if test_set else 0
