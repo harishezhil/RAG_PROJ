@@ -1,23 +1,97 @@
-# ✅ Improved utils.py with section chunking and FAISS integration
-def section_chunking(text):
-    import re
-    pattern = r'(?=\n\s*(\*\*|\d+\.))'  # Lookahead for markdown-style headers
-    sections = re.split(pattern, text)
+import re
+import xml.etree.ElementTree as ET
 
-    chunks = []
-    buffer = ""
+def section_chunking(text, max_chunk_size=1000):
+    def is_xml(text):
+        return text.strip().startswith("<") and text.strip().endswith(">")
 
-    for sec in sections:
-        if sec.strip():
-            if len(buffer) + len(sec) < 1000:
-                buffer += sec
+    def chunk_by_xml(text):
+        try:
+            root = ET.fromstring(text)
+        except ET.ParseError:
+            return [text.strip()]  # Fallback if XML is invalid
+
+        chunks = []
+        buffer = ""
+        for section in root.findall(".//section"):
+            section_text = ET.tostring(section, encoding='unicode', method='text').strip()
+            if len(buffer) + len(section_text) < max_chunk_size:
+                buffer += "\n" + section_text
             else:
-                chunks.append(buffer.strip())
-                buffer = sec
-    if buffer:
-        chunks.append(buffer.strip())
+                if buffer:
+                    chunks.append(buffer.strip())
+                buffer = section_text
+        if buffer:
+            chunks.append(buffer.strip())
+        return chunks
 
-    return chunks
+    def chunk_by_markdown(text):
+        pattern = r'(?=\n\s*#{1,6}\s)'  # Matches markdown headers
+        sections = re.split(pattern, text)
+        chunks = []
+        buffer = ""
+        for sec in sections:
+            sec = sec.strip()
+            if not sec:
+                continue
+            if len(buffer) + len(sec) < max_chunk_size:
+                buffer += "\n" + sec
+            else:
+                if buffer:
+                    chunks.append(buffer.strip())
+                buffer = sec
+        if buffer:
+            chunks.append(buffer.strip())
+        return chunks
+
+    def chunk_by_paragraph(text):
+        paragraphs = text.split('\n\n')
+        chunks = []
+        buffer = ""
+        for para in paragraphs:
+            para = para.strip()
+            if not para:
+                continue
+            if len(buffer) + len(para) < max_chunk_size:
+                buffer += "\n\n" + para
+            else:
+                if buffer:
+                    chunks.append(buffer.strip())
+                buffer = para
+        if buffer:
+            chunks.append(buffer.strip())
+        return chunks
+
+    # Auto-detection and delegation
+    if is_xml(text):
+        return chunk_by_xml(text)
+    elif re.search(r'#{1,6}\s', text):
+        return chunk_by_markdown(text)
+    else:
+        return chunk_by_paragraph(text)
+
+
+
+# ✅ Improved utils.py with section chunking and FAISS integration
+# def section_chunking(text):
+#     import re
+#     pattern = r'(?=\n\s*(\*\*|\d+\.))'  # Lookahead for markdown-style headers
+#     sections = re.split(pattern, text)
+
+#     chunks = []
+#     buffer = ""
+
+#     for sec in sections:
+#         if sec.strip():
+#             if len(buffer) + len(sec) < 1000:
+#                 buffer += sec
+#             else:
+#                 chunks.append(buffer.strip())
+#                 buffer = sec
+#     if buffer:
+#         chunks.append(buffer.strip())
+
+#     return chunks
 
 
 def load_documents(folder="data"):
