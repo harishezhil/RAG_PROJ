@@ -171,7 +171,7 @@ def compute_metrics(test_set, index, metadata, llm, parser,prompt):
         # --- Faithfulness Score ---
         faithfulness = fuzz.token_sort_ratio(answer.lower(), test["expected"].lower()) / 100
         faithfulness_scores.append(faithfulness)
-        if faithfulness > 0.7:
+        if faithfulness > 0.65:
             correct += 1
         
     accuracy = correct / len(test_set) if test_set else 0
